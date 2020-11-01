@@ -10,6 +10,7 @@ if [ ! -d "$venv" ]; then
     echo "python3 -m venv venv"
     echo "source venv/bin/activate"
     echo ""
+    echo "Then re-run this file"
     exit
 fi
 
