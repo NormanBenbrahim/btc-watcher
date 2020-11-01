@@ -19,7 +19,7 @@ if [ ! -z "${VIRTUAL_ENV}" ]; then
     pip install --upgrade pip
     pip install -r requirements.txt
 else
-    echo "Please type 'source venv/bin/activate' first"
+    echo "Please type 'source venv/bin/activate' first, then re-run this file"
     exit
 fi
 
