@@ -12,4 +12,8 @@ git clone https://github.com/NormanBenbrahim/mind-med-watcher.git
 ./util/start-local.sh
 ```
 
-Deploying to Google Cloud
+On Google App Engine
+```
+git clone https://github.com/NormanBenbrahim/mind-med-watcher.git
+./util/start.sh
+```
