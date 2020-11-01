@@ -1,5 +1,6 @@
 .gcloudignore
 .vscode
+.DS_STORE
 python-docs-samples
 data
 venv
