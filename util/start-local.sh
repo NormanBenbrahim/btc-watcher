@@ -1,18 +1,13 @@
 #!/bin/bash
 
-venv="venv"
+venv="../venv"
 
-# if no venv folder, make sure user types the commands
+# if no venv folder, make sure to create it 
 if [ ! -d "$venv" ]; then
-    echo "No virtual env executable found"
-    echo "Please type the following commands first:"
-    echo ""
-    echo "python3 -m venv venv"
-    echo "source venv/bin/activate"
-    echo ""
-    echo "Then re-run this file"
-    exit
+    python3 -m venv venv
 fi
+
+# TODO: add check for gcloud sdk
 
 # some housekeeping 
 if [ ! -z "${VIRTUAL_ENV}" ]; then
@@ -28,3 +23,8 @@ if [ -z "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
     echo "WARNING: Your Google API credentials file does not exist"
     echo "All Google Cloud products will not work"
 fi
+
+# create env variable letting the app know it is running a local instance
+export IS_PRODUCTION="0"
+
+python main.py

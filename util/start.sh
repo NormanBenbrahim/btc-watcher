@@ -28,3 +28,8 @@ if [ -z "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
     echo "WARNING: Your Google API credentials file does not exist"
     echo "All Google Cloud products will not work"
 fi
+
+# create env variable letting the app know it is running a local instance
+export IS_PRODUCTION="1"
+
+gcloud init

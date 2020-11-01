@@ -1,13 +1,12 @@
 #!/bin/env python
 import datetime
-
-from flask import Flask, render_template
-
-# [START gae_python38_datastore_store_and_fetch_times]
+from flask import Flask, render_template, make_response, jsonify
+from alpha_vantage.timeseries import TimeSeries
 from google.cloud import datastore
 
 datastore_client = datastore.Client()
 
+# use this : https://www.tutlinks.com/deploy-fastapi-app-on-google-cloud-platform/
 # [END gae_python38_datastore_store_and_fetch_times]
 app = Flask(__name__)
 
@@ -45,6 +44,13 @@ def root():
         'index.html', times=times)
 # [END gae_python38_datastore_render_times]
 
+# price route
+@app.route('/api/price', methods=['GET'])
+def price_now():
+    """
+    Get MMMED current price
+    """
+    return make_response(jsonify({"current_price":1}))
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
