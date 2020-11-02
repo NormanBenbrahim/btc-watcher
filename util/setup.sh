@@ -1,5 +1,7 @@
 #!/bin/bash
 
+git clone https://github.com/NormanBenbrahim/mind-med-watcher
+cd mind-med-watcher
 venv="venv"
 
 # if no venv folder, make sure user types the commands
