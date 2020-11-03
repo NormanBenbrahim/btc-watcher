@@ -1,10 +1,15 @@
 #!/bin/bash
 
-venv="../venv"
+# ensure you work in same python version as on google cloud app engine
+brew install pyenv && brew install pyenv-virtualenv
+pyenv install 3.7.3
+pyenv global 3.7.3
+# add specific version to the path
+export PATH="~/.pyenv/versions/3.7.3/bin:${PATH}"
 
 # if no venv folder, make sure to create it 
-if [ ! -d "$venv" ]; then
-    python3 -m venv venv
+if [ ! -d "venv" ]; then
+    pyenv virtualenv 3.7.3 venv
 fi
 
 # TODO: add check for gcloud sdk
@@ -18,13 +23,9 @@ else
     exit
 fi
 
-# make sure the google cloud credentials exist
-if [ -z "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
-    echo "WARNING: Your Google API credentials file does not exist"
-    echo "All Google Cloud products will not work"
-fi
-
 # create env variable letting the app know it is running a local instance
-export IS_PRODUCTION="0"
+export IS_LOCAL="1"
+export IS_DEV="0"
+export IS_PROD="0"
 
 python main.py
