@@ -4,7 +4,7 @@ Watches the stock MindMed (MMED) and collects useful data about the stock wrappe
 
 # Requirements
 
-Python 3.7.3, see requirements.txt for package requirements
+Python 3.7.3 & Homebrew, see `requirements.txt` for package requirements
 
 # Setup
 
@@ -17,13 +17,19 @@ git clone https://github.com/NormanBenbrahim/mind-med-watcher.git
 cd mind-med-watcher
 ./util/setup-local.sh
 ```
-Then follow instructions 
+Then follow instructions. The prompts will let you know when you're ready to run your instance's `start` script
 
-On Google App Engine
+On Google App Engine it's the same concept (for dev)
 ```
 git clone https://github.com/NormanBenbrahim/mind-med-watcher.git
 cd mind-med-watcher
-./util/setup.sh
+./util/setup-dev.sh
 ```
 
-Make sure to create your app on app engine first, then setup environment variables in your local instance
+# Usage 
+
+Launch the API
+
+```
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
+```

@@ -1,9 +1,13 @@
 #!/bin/bash
 
 # ensure you work in same python version as on google cloud app engine
-brew install pyenv && brew install pyenv-virtualenv
+brew install pyenv
+brew install pyenv-virtualenv
 
-if [ ! -d "$HOME/.pyenv/versions/3.7.3"]; then
+echo "" 
+echo ""
+
+if [ ! -d "$HOME/.pyenv/versions/3.7.3" ]; then
     pyenv install 3.7.3
     pyenv local 3.7.3
 fi
@@ -13,15 +17,16 @@ export PATH="~/.pyenv/versions/3.7.3/bin:${PATH}"
 
 # if no venv folder, make sure to create it 
 if [ ! -d "venv" ]; then
+    echo ""
     echo "Local virtual environment not found, creating..."
-    python3 -m venv venv 
+    python3 -m venv venv
 fi
 
 # some housekeeping 
 if [ ! -z "${VIRTUAL_ENV}" ]; then
-    pip install --upgrade pip
     pip install -r requirements.txt
 else
+    echo ""
     echo "Please type 'source venv/bin/activate' first, then re-run this file"
     exit
 fi
@@ -32,3 +37,8 @@ export IS_DEV="0"
 export IS_PROD="0"
 
 # TODO: add check for gcloud sdk
+
+echo ""
+echo ""
+echo "***You are ready to work in your local instance!***"
+echo "To start the app, type gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app"
