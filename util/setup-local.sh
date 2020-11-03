@@ -10,6 +10,8 @@ echo ""
 if [ ! -d "$HOME/.pyenv/versions/3.7.3" ]; then
     pyenv install 3.7.3
     pyenv local 3.7.3
+else 
+    pyenv local 3.7.3
 fi
 
 # add specific version to the path
@@ -31,12 +33,21 @@ else
     exit
 fi
 
+# TODO: add check for gcloud sdk
+if [ ! -d "$HOME/google-cloud-sdk" ]; then 
+    echo "" 
+    echo "The google cloud SDK is not installed, go here"
+    echo "https://cloud.google.com/sdk/docs/install"
+    echo "and install it first, then re-run this file"
+    exit
+else 
+    gcloud auth login
+fi 
+
 # create env variable letting the app know it is running a local instance
 export IS_LOCAL="1"
 export IS_DEV="0"
 export IS_PROD="0"
-
-# TODO: add check for gcloud sdk
 
 echo ""
 echo ""
