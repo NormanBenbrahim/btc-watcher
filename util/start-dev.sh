@@ -23,4 +23,6 @@ export IS_LOCAL="0"
 export IS_DEV="1"
 export IS_PROD="0"
 
-gcloud app deploy app.yaml
+# create service account for api calls
+gcloud iam service-accounts enable api-dev-v1@watch-mind-med.iam.gserviceaccount.com
+gcloud app deploy app.yaml --project watch-mind-med
