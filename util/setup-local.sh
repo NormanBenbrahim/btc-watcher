@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # ensure you work in same python version as on google cloud app engine
+# comment these lines out when you run it the first time, otherwise it's annoying
 brew install pyenv
 brew install pyenv-virtualenv
 

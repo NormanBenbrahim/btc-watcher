@@ -1,12 +1,21 @@
 #!/bin/bash
 
-# this will prompt you to answer some stuff on the terminal
+# comment this line out after running it the first time
 sudo apt update && sudo apt upgrade --fix-missing
 
 if [ ! -d "venv" ]; then
+    echo ""
+    echo "Local virtual environment not found, creating..."
     virtualenv venv
-else 
-    source venv/bin/activate
+fi
+
+# some housekeeping 
+if [ ! -z "${VIRTUAL_ENV}" ]; then
+    pip install -r requirements.txt
+else
+    echo ""
+    echo "Please type 'source venv/bin/activate' first, then re-run this file"
+    exit
 fi
 
 # create env variable letting the app know it is running a local instance
