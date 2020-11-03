@@ -2,17 +2,20 @@
 
 # ensure you work in same python version as on google cloud app engine
 brew install pyenv && brew install pyenv-virtualenv
-pyenv install 3.7.3
-pyenv global 3.7.3
+
+if [ ! -d "$HOME/.pyenv/versions/3.7.3"]; then
+    pyenv install 3.7.3
+    pyenv local 3.7.3
+fi
+
 # add specific version to the path
 export PATH="~/.pyenv/versions/3.7.3/bin:${PATH}"
 
 # if no venv folder, make sure to create it 
 if [ ! -d "venv" ]; then
-    pyenv virtualenv 3.7.3 venv
+    echo "Local virtual environment not found, creating..."
+    python3 -m venv venv 
 fi
-
-# TODO: add check for gcloud sdk
 
 # some housekeeping 
 if [ ! -z "${VIRTUAL_ENV}" ]; then
@@ -28,4 +31,4 @@ export IS_LOCAL="1"
 export IS_DEV="0"
 export IS_PROD="0"
 
-python main.py
+# TODO: add check for gcloud sdk
