@@ -1,15 +1,13 @@
 #!/bin/bash
 
-# set the google cloud project
-gcloud config set project watch-mind-med
-
+# virtual env
 if [ ! -d "venv" ]; then
     echo ""
     echo "Local virtual environment not found, creating..."
     virtualenv venv
 fi
 
-# some housekeeping 
+# more virtual env 
 if [ ! -z "${VIRTUAL_ENV}" ]; then
     pip install -r requirements.txt
 else
@@ -24,5 +22,4 @@ export IS_DEV="1"
 export IS_PROD="0"
 
 # create service account for api calls
-gcloud iam service-accounts enable api-dev-v1@watch-mind-med.iam.gserviceaccount.com
 gcloud app deploy app.yaml --project watch-mind-med
