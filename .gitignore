@@ -5,3 +5,4 @@ python-docs-samples
 data
 venv
 __pycache__
+.python-version
