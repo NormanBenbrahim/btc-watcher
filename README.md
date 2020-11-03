@@ -4,11 +4,9 @@ Watches the stock MindMed (MMED) and collects useful data about the stock wrappe
 
 # Requirements
 
-Python 3.7.3 & Homebrew, see `requirements.txt` for package requirements
+Python 3.7.3 & Homebrew (Mac), see `requirements.txt` for package requirements
 
 # Setup
-
-Clone the repo and `cd` into it, then:
 
 On a Mac (make sure homebrew is installed):
 
