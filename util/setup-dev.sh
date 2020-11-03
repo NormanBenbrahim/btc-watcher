@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # comment this line out after running it the first time
-sudo apt update --fix-missing
+sudo apt update && sudo apt -y upgrade --fix-missing
 
 if [ ! -d "venv" ]; then
     echo ""
