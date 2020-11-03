@@ -26,6 +26,8 @@ cd mind-med-watcher
 ./util/setup-dev.sh
 ```
 
+Don't forget to set spending limits if you are past your free trial phase and are planning to use this app for a while: https://cloud.google.com/appengine/docs/standard/python3/console
+
 # Usage 
 
 Launch the API
