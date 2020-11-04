@@ -1,5 +1,5 @@
 astroid==2.3.3
-Click==7.0
+click==7.1.2
 colorama==0.4.3
 fastapi==0.47.1
 gunicorn==20.0.4

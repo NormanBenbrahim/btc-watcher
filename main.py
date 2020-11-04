@@ -1,12 +1,11 @@
-from fastapi import FastAPI
 import astroid
-import Click
+import click
 import colorama
 import fastapi
 import gunicorn
 import h11
 import isort
-import lazy-object-proxy
+import lazy_object_proxy
 import mccabe
 import pydantic
 import pylint
@@ -18,6 +17,8 @@ import requests
 import wrapt
 import tensorflow
 import alpha_vantage
+
+from fastapi import FastAPI
 
 app = FastAPI()
 
