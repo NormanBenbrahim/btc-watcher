@@ -13,6 +13,7 @@ six==1.14.0
 starlette==0.12.9
 uvicorn==0.11.2
 websockets==8.1
+requests==2.23.0
 wrapt==1.11.2
 tensorflow==2.3.0
 alpha_vantage==2.2.0
