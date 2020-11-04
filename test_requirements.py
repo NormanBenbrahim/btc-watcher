@@ -1,4 +1,3 @@
-from fastapi import FastAPI
 import astroid
 import Click
 import colorama
@@ -18,9 +17,3 @@ import requests
 import wrapt
 import tensorflow
 import alpha_vantage
-
-app = FastAPI()
-
-@app.get("/")
-def home():
-    return {"message":"oh yeah baby"}
