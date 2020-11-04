@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-#import tensorflow as tf
+import requests
 app = FastAPI()
 
 @app.get("/")
