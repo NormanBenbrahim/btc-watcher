@@ -15,5 +15,7 @@ uvicorn==0.11.2
 websockets==8.1
 requests==2.23.0
 wrapt==1.11.2
+typing==3.7.4
+pydantic==1.7.2
 tensorflow==2.3.0
 alpha_vantage==2.2.0
