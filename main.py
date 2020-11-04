@@ -31,3 +31,6 @@ def home():
 
         # return the json object
         return JSONResponse(content=response)
+    
+    except Exception as e:
+        print(e)
