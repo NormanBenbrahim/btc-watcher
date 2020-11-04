@@ -22,4 +22,4 @@ export IS_DEV="1"
 export IS_PROD="0"
 
 # create service account for api calls
-gcloud app deploy app.yaml --project watch-mind-med
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
