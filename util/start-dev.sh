@@ -22,4 +22,4 @@ export IS_DEV="1"
 export IS_PROD="0"
 
 # create service account for api calls
-gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app(venv)
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
