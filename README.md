@@ -1,6 +1,6 @@
 # Mindmed Watcher
 
-Watches the stock MindMed (MMED) and collects useful data about the stock wrapped in a rest API built using Python (fastapi)
+Watches the stock MindMed (MMED) and collects useful data about the stock wrapped in a rest API built using Python (fastapi), delivered in a docker container hosted on Google Cloud Run
 
 # Requirements
 
@@ -19,9 +19,9 @@ Get these free API keys:
 
 * https://www.alphavantage.co/
 
-Then change the following line inside `Dockerfile-example` and rename the file to `Dockerfile`:
+Then change the following line inside `.env-example` and rename the file to `.env`:
 ```
-ENV ALPHA_VANTAGE_KEY="<your api key>"
+ALPHA_VANTAGE_KEY="your api key"
 ```
 
 ### Step 3

@@ -16,9 +16,6 @@ RUN apt-get -y install gcc
 # install python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# set api key environment variables
-ENV ALPHA_VANTAGE_KEY="NRKKJW128JD47LRG"
-
 # Run the web service on container startup. Here we use the gunicorn
 # webserver, with one worker process and 8 threads.
 # For environments with multiple CPU cores, increase the number of workers
