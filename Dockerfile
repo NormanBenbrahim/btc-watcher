@@ -10,7 +10,7 @@ WORKDIR $APP_HOME
 COPY . ./
 
 # install prod dependencies
-RUN pip install --no-cache-dir fastapi gunicorn
+RUN pip install --no-cache-dir fastapi gunicorn uvicorn
 COPY ./app /app
 
 # Run the web service on container startup. Here we use the gunicorn
