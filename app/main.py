@@ -19,8 +19,9 @@ app = FastAPI()
 # TODO: route for mmed current price
 @app.get("/mmed")
 async def mmed_summary():
-    ts = TimeSeries(key='YOUR_API_KEY')
-    data, meta_data = ts.get_intraday('MMED')
+    #ts = TimeSeries(key='YOUR_API_KEY')
+    #data, meta_data = ts.get_intraday('MMED')
+    return {"response": 200}
 
 # route for choosing a model
 @app.get("/model/{model_name}")
