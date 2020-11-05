@@ -1,7 +1,7 @@
 from datetime import datetime
 from fastapi import FastAPI
 from enum import Enum
-import logging
+from alpha_vantage.timeseries import TimeSeries 
 
 # start the timer for the health check
 # TODO: add conversion from UTC to EST time for all times in script
@@ -17,9 +17,10 @@ class ModelName(str, Enum):
 app = FastAPI()
 
 # TODO: route for mmed current price
-#ts = TimeSeries(key='YOUR_API_KEY')
-# Get json object with the intraday data and another with  the call's metadata
-#data, meta_data = ts.get_intraday('GOOGL')
+@app.get("/mmed")
+async def mmed_summary():
+    ts = TimeSeries(key='YOUR_API_KEY')
+    data, meta_data = ts.get_intraday('MMED')
 
 # route for choosing a model
 @app.get("/model/{model_name}")
