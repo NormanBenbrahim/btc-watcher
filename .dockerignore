@@ -1,5 +1,4 @@
-Dockerfile
-Dockerfile-example
+.env-example
 README.md
 *.pyc
 *.pyo
