@@ -4,32 +4,54 @@ Watches the stock MindMed (MMED) and collects useful data about the stock wrappe
 
 # Requirements
 
-Python 3.7.3 & Homebrew (Mac), see `requirements.txt` for package requirements
+Python 3.7.3, see `requirements.txt`
 
-# Setup
+# Setup (one-time)
 
-On a Mac (make sure homebrew is installed):
-
+### Step 1
 ```
 git clone https://github.com/NormanBenbrahim/mind-med-watcher.git
 cd mind-med-watcher
+```
+
+### Step 2
+Get these free API keys:
+
+* https://www.alphavantage.co/
+
+Then change the values inside `app-example.yaml` and rename the file to `app.yaml`:
+```
+ALPHA_VANTAGE_KEY
+```
+
+### Step 3
+
+Run the `start` scripts for your environment and follow instructions
+
+**Local:** On a Mac (make sure homebrew is installed):
+
+```
 ./util/setup-local.sh
 ```
-Then follow instructions. The prompts will let you know when you're ready to run your instance's `start` script
 
-On Google App Engine it's the same concept (for dev)
+**Dev/Prod:** On Google App Engine it's the same concept
+
 ```
-git clone https://github.com/NormanBenbrahim/mind-med-watcher.git
-cd mind-med-watcher
 ./util/setup-dev.sh
 ```
 
-Don't forget to set spending limits if you are past your free trial phase and are planning to use this app for a while: https://cloud.google.com/appengine/docs/standard/python3/console
-
 # Usage 
 
-Launch the API
+### Launching the app
+
+**Local:** On a Mac (make sure homebrew is installed):
 
 ```
-gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
+./util/start-local.sh
+```
+
+**Dev/Prod:** On Google App Engine it's the same concept
+
+```
+./util/start-dev.sh
 ```
