@@ -1,8 +1,6 @@
 from datetime import datetime
 from fastapi import FastAPI
 from enum import Enum
-from alpha_vantage.timeseries import TimeSeries
-from environs import Env
 import logging
 
 # start the timer for the health check
@@ -18,7 +16,7 @@ class ModelName(str, Enum):
 # start api
 app = FastAPI()
 
-# route for mmed current price
+# TODO: route for mmed current price
 #ts = TimeSeries(key='YOUR_API_KEY')
 # Get json object with the intraday data and another with  the call's metadata
 #data, meta_data = ts.get_intraday('GOOGL')
