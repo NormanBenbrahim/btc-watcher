@@ -19,9 +19,9 @@ Get these free API keys:
 
 * https://www.alphavantage.co/
 
-Then change the values inside `app-example.yaml` and rename the file to `app.yaml`:
+Then change the following line inside `Dockerfile-example` and rename the file to `Dockerfile`:
 ```
-ALPHA_VANTAGE_KEY
+ENV ALPHA_VANTAGE_KEY="<your api key>"
 ```
 
 ### Step 3
