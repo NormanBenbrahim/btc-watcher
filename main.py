@@ -2,11 +2,10 @@ from datetime import datetime
 from fastapi import FastAPI
 from enum import Enum
 from alpha_vantage.timeseries import TimeSeries
-from environs import Env 
+import os 
 
 # read env file and pick up environment variables
-env = Env()
-alpha_vantage_key = env("ALPHA_VANTAGE")
+alpha_vantage_key = os.environ.get("ALPHA_VANTAGE")
 
 # start the timer for the health check
 # TODO: add conversion from UTC to EST time for all times in script
@@ -26,7 +25,7 @@ app = FastAPI()
 async def mmed_summary():
     ts = TimeSeries(key=alpha_vantage_key)
     data, meta_data = ts.get_intraday('MMED')
-    return {"response": 200}
+    return {"response": data}
 
 # route for choosing a model
 @app.get("/model/{model_name}")
