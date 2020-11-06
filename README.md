@@ -9,13 +9,7 @@ Python 3.7.3, see `requirements.txt`
 # Setup (one-time)
 
 ### Step 1
-```
-git clone https://github.com/NormanBenbrahim/mind-med-watcher.git
-cd mind-med-watcher
-```
-
-### Step 2
-Get these free API keys:
+Get the free API keys:
 
 * https://www.alphavantage.co/
 
@@ -23,6 +17,14 @@ Then change the following line inside `.env-example` and rename the file to `.en
 ```
 ALPHA_VANTAGE_KEY="your api key"
 ```
+
+### Step 2
+```
+git clone https://github.com/NormanBenbrahim/mind-med-watcher.git
+cd mind-med-watcher
+./util/setup-local.sh OR ./util/setup-gcp.sh
+```
+
 
 ### Step 3
 

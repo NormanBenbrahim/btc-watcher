@@ -1,7 +1,7 @@
 # https://hub.docker.com/r/tiangolo/uvicorn-gunicorn/
 FROM tiangolo/uvicorn-gunicorn:python3.8-slim
 
-# Allow statements and log messages to immediately appear in the Knative logs
+# Allow statements and log   messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
 
 # Copy local code to the container image.

@@ -1,11 +1,11 @@
 from datetime import datetime
 from fastapi import FastAPI
 from enum import Enum
-from alpha_vantage.timeseries import TimeSeries
+from alpha_vantage.cryptocurrencies import CryptoCurrencies
 import os 
 
 # read env file and pick up environment variables
-alpha_vantage_key = os.environ.get("ALPHA_VANTAGE")
+alpha_vantage_key = os.environ.get("ALPHA_VANTAGE", "NRKKJW128JD47LRG")
 
 # start the timer for the health check
 # TODO: add conversion from UTC to EST time for all times in script
@@ -20,11 +20,16 @@ class ModelName(str, Enum):
 # start api
 app = FastAPI()
 
-# TODO: route for mmed current price
-@app.get("/mmed")
-async def mmed_summary():
+# root route
+@app.get("/")
+async def home():
+    return {"200": "Successfully connected to API, visit '/docs' to view all routes"}
+
+# TODO: route for btc current price
+@app.get("/btc")
+async def btc_summary():
     ts = TimeSeries(key=alpha_vantage_key)
-    data, meta_data = ts.get_intraday('MMED')
+    data, meta_data = ts.get_intraday('btc')
     return {"response": data}
 
 # route for choosing a model
@@ -40,17 +45,12 @@ async def get_model(model_name: ModelName):
 
 # route for healthcheck
 @app.get("/health-check")
-async def home():
-    try:
-        # collect info for response
-        uptime = datetime.now() - start_time
-        uptime = uptime.total_seconds()
-        message = 'OK'
-        timestamp = datetime.now()
+async def healthcheck():
+    # collect info for response
+    uptime = datetime.now() - start_time
+    uptime = uptime.total_seconds()
+    message = 'OK'
+    timestamp = datetime.now()
 
-        # return response
-        return {"uptime": uptime, "message": message, "timestamp": timestamp}
-    
-    except Exception as e:
-        print(e)
-
+    # return response
+    return {"uptime": uptime, "message": message, "timestamp": timestamp}
