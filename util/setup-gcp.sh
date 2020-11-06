@@ -18,10 +18,9 @@ fi
 
 # create the app
 echo ""
-echo "creating app"
-gcloud app create --region=asia-south1
-
-# create env variable letting the app know it is running a local instance
-export IS_LOCAL="0"
-export IS_DEV="1"
-export IS_PROD="0"
+echo "creating cloudrun service"
+gcloud config set project watch-mmed-dev 
+gcloud builds submit --tag gcr.io/watch-mmed-dev.io/ 
+gcloud run --platform="managed" --region="us-central1"
+gcloud secrets create fast-api-v1 --replication-policy="automatic"
+gcloud secrets versions add fast-api-v1 --data-file=".env"
