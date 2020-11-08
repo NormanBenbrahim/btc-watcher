@@ -1,24 +1,14 @@
-# Mindmed Watcher
+# Bitcoin Watcher
 
-Watches the stock MindMed (MMED) and collects useful data about the stock wrapped in a rest API built using Python (fastapi), delivered in a docker container hosted on Google Cloud Run
+RestAPI to watch and collects useful data about BTC wrapped in a rest API built using Python (fastapi), delivered in a docker container hosted on Google Cloud Run
 
 # Requirements
 
-Python 3.7.3, see `requirements.txt`
+Python 3.8, see `requirements.txt` and `Dockerfile`
 
 # Setup (one-time)
 
 ### Step 1
-Get the free API keys:
-
-* https://www.alphavantage.co/
-
-Then change the following line inside `.env-example` and rename the file to `.env`:
-```
-ALPHA_VANTAGE_KEY="your api key"
-```
-
-### Step 2
 ```
 git clone https://github.com/NormanBenbrahim/mind-med-watcher.git
 cd mind-med-watcher
@@ -26,7 +16,7 @@ cd mind-med-watcher
 ```
 
 
-### Step 3
+### Step 2
 
 Run the `start` scripts for your environment and follow instructions
 

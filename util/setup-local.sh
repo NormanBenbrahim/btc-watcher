@@ -8,15 +8,15 @@ brew install pyenv-virtualenv
 echo "" 
 echo ""
 
-if [ ! -d "$HOME/.pyenv/versions/3.7.3" ]; then
-    pyenv install 3.7.3
-    pyenv local 3.7.3
+if [ ! -d "$HOME/.pyenv/versions/3.8.6" ]; then
+    pyenv install 3.8.6
+    pyenv local 3.8.6
 else 
-    pyenv local 3.7.3
+    pyenv local 3.8.6
 fi
 
 # add specific version to the path
-export PATH="~/.pyenv/versions/3.7.3/bin:${PATH}"
+export PATH="~/.pyenv/versions/3.8.6/bin:${PATH}"
 
 # if no venv folder, make sure to create it 
 if [ ! -d "venv" ]; then
@@ -45,10 +45,6 @@ else
     gcloud auth login
 fi 
 
-# create env variable letting the app know it is running a local instance
-export IS_LOCAL="1"
-export IS_DEV="0"
-export IS_PROD="0"
 
 echo ""
 echo ""

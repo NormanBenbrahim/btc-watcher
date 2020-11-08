@@ -1,7 +1,14 @@
 #!/bin/bash
 
-# set the google cloud project
-gcloud config set project watch-mind-med
+if [ ! -d "$HOME/.pyenv/versions/3.8.6" ]; then
+    pyenv install 3.8.6
+    pyenv global 3.8.6
+else 
+    pyenv global 3.8.6
+fi
+
+# add specific version to the path
+export PATH="~/.pyenv/versions/3.8.6/bin:${PATH}"
 
 if [ ! -d "venv" ]; then
     echo ""
@@ -23,4 +30,4 @@ export IS_LOCAL="1"
 export IS_DEV="0"
 export IS_PROD="0"
 
-gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
+gunicorn -k uvicorn.workers.UvicornWorker --workers 4 --threads 8 --timeout 0 main:app

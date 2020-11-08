@@ -25,7 +25,7 @@ app = FastAPI()
 # root route
 @app.get("/")
 async def home():
-    return {"200": "Successfully connected to API, visit '/docs' to view all routes"}
+    return {"200": "Successfully connected to API, visit /docs to view all routes"}
 
 # route for getting bitcoin price
 @app.get("/btc")
