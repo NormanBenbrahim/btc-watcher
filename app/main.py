@@ -15,9 +15,10 @@ start_time = datetime.now(timezone('EST'))
 
 # setup the model
 class ModelName(str, Enum):
-    alexnet = "alexnet"
-    resnet = "resnet"
-    lenet = "lenet"
+    theilsen = "theilsen"
+    huber = "huber"
+    lstm = "lstm"
+    gru = "gru"
 
 # start api
 app = FastAPI()
@@ -37,16 +38,21 @@ async def btc_summary():
     # respond back with a json object
     return {"200" : json.loads(response.text)}
 
+
 # route for choosing a model
 @app.get("/model/{model_name}")
 async def get_model(model_name: ModelName):
-    if model_name == ModelName.alexnet:
-        return {"model_name": model_name, "message": "Deep Learning FTW!"}
+    if model_name == ModelName.theilsen:
+        return {"model_name": model_name, "message": "Theilsen model selected"}
 
-    if model_name.value == "lenet":
-        return {"model_name": model_name, "message": "LeCNN all the images"}
+    if model_name.value == "huber":
+        return {"model_name": model_name, "message": "Huber model selected"}
 
-    return {"model_name": model_name, "message": "Have some residuals"}
+    if model_name.value = "lstm":
+        return {"model_name": model_name, "message": "LSTM model selected"}
+
+    return {"model_name": model_name, "message": "GRU model selected"}
+
 
 # route for healthcheck
 @app.get("/health-check")
