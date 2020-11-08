@@ -4,6 +4,9 @@ from pytz import timezone
 
 router = APIRouter()
 
+# start the timer for the health check, convert to est timezone
+start_time = datetime.now(timezone('EST'))
+
 # route for healthcheck
 @router.get("/health-check")
 async def healthcheck():

@@ -1,5 +1,3 @@
-from datetime import datetime
-from pytz import timezone
 from fastapi import FastAPI
 from enum import Enum
 import uvicorn
@@ -10,9 +8,6 @@ from routers import models, btc, health_check
 
 # formatter for logging
 formatter = logging.Formatter('%(asctime)s: %(levelname)s: %(message)s')
-
-# start the timer for the health check, convert to est timezone
-start_time = datetime.now(timezone('EST'))
 
 # start api
 app = FastAPI()
