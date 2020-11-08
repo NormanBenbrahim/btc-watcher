@@ -7,7 +7,7 @@ gcloud init
 
 # configure
 gcloud config set run/platform managed
-gcloud config set run/region europe-west43
+gcloud config set run/region us-central1
 
 # build the container
 gcloud builds submit --tag eu.gcr.io/$PROJECT_ID/app
