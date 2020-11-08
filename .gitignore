@@ -1,9 +1,6 @@
 .vscode
 .DS_STORE
-python-docs-samples
 data
 venv
 __pycache__
 .python-version
-app.yaml
-.env
