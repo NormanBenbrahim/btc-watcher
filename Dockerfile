@@ -5,7 +5,7 @@ FROM tiangolo/uvicorn-gunicorn:python3.8-slim
 ENV PYTHONUNBUFFERED True
 
 # Copy local code to the container image.
-ENV APP_HOME /app
+ENV APP_HOME /container_image
 WORKDIR $APP_HOME
 COPY . ./
 
@@ -20,4 +20,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 # webserver, with one worker process and 8 threads.
 # For environments with multiple CPU cores, increase the number of workers
 # to be equal to the cores available.
-CMD exec gunicorn -k uvicorn.workers.UvicornWorker --bind :$PORT --workers 4 --threads 8 --timeout 0 main:app
+CMD exec gunicorn -k uvicorn.workers.UvicornWorker --bind :$PORT --workers 4 --threads 8 --timeout 0 app/main:app
