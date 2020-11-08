@@ -1,16 +1,16 @@
 from datetime import datetime
+from pytz import timezone
 from fastapi import FastAPI
 from enum import Enum
-from pycoingecko import CoinGeckoApi
-import os 
+import uvicorn
 import logging
+from pycoingecko import CoinGeckoAPI
 
 # formatter for logging
 formatter = logging.Formatter('%(asctime)s: %(levelname)s: %(message)s')
 
-# start the timer for the health check
-# TODO: add conversion from UTC to EST time for all times in script
-start_time = datetime.now()
+# start the timer for the health check, convert to est timezone
+start_time = datetime.now(timezone('EST'))
 
 # setup the model
 class ModelName(str, Enum):
@@ -48,10 +48,14 @@ async def get_model(model_name: ModelName):
 @app.get("/health-check")
 async def healthcheck():
     # collect info for response
-    uptime = datetime.now() - start_time
+    uptime = datetime.now(timezone('EST')) - start_time
     uptime = uptime.total_seconds()
     message = 'OK'
-    timestamp = datetime.now()
+    timestamp = datetime.now(timezone('EST'))
+    out_timestamp = timestamp.strftime('%m/%d/%Y, %H:%M:%S')
 
     # return response
-    return {"uptime": uptime, "message": message, "timestamp": timestamp}
+    return {"uptime (seconds)": uptime, "message": message, "timestamp": out_timestamp}
+
+if __name__ == '__main__':
+    uvicorn.run(app, debug=True, host="0.0.0.0", port=8000)
