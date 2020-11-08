@@ -45,6 +45,7 @@ else
     gcloud auth login
 fi 
 
+export PROJECT_ID="watch-btc-dev"
 
 echo ""
 echo ""
