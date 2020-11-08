@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PROJECT_ID="watch-mmed-dev"
+export PROJECT_ID="watch-btc-dev"
 
 # login to cloudrun instance
 gcloud init
