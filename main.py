@@ -1,11 +1,12 @@
 from datetime import datetime
 from fastapi import FastAPI
 from enum import Enum
-from alpha_vantage.cryptocurrencies import CryptoCurrencies
+from pycoingecko import CoinGeckoApi
 import os 
+import logging
 
-# read env file and pick up environment variables
-alpha_vantage_key = os.environ.get("ALPHA_VANTAGE", "NRKKJW128JD47LRG")
+# formatter for logging
+formatter = logging.Formatter('%(asctime)s: %(levelname)s: %(message)s')
 
 # start the timer for the health check
 # TODO: add conversion from UTC to EST time for all times in script
@@ -25,12 +26,12 @@ app = FastAPI()
 async def home():
     return {"200": "Successfully connected to API, visit '/docs' to view all routes"}
 
-# TODO: route for btc current price
+# route for getting bitcoin price
 @app.get("/btc")
 async def btc_summary():
-    ts = TimeSeries(key=alpha_vantage_key)
-    data, meta_data = ts.get_intraday('btc')
-    return {"response": data}
+    cg = CoinGeckoAPI()
+    btc = cg.get_price(ids='bitcoin', vs_currencies='cad')
+    return {"200": btc}
 
 # route for choosing a model
 @app.get("/model/{model_name}")
