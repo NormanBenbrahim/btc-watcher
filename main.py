@@ -4,7 +4,8 @@ from fastapi import FastAPI
 from enum import Enum
 import uvicorn
 import logging
-from pycoingecko import CoinGeckoAPI
+import requests
+import json 
 
 # formatter for logging
 formatter = logging.Formatter('%(asctime)s: %(levelname)s: %(message)s')
@@ -29,9 +30,12 @@ async def home():
 # route for getting bitcoin price
 @app.get("/btc")
 async def btc_summary():
-    cg = CoinGeckoAPI()
-    btc = cg.get_price(ids='bitcoin', vs_currencies='cad')
-    return {"200": btc}
+    # TODO: find out why pycoingecko won't containerize to cloud run
+    response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=cad')
+    response.raise_for_status()
+
+    # respond back with a json object
+    return {"200" : json.loads(response.text)}
 
 # route for choosing a model
 @app.get("/model/{model_name}")
