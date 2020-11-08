@@ -48,4 +48,4 @@ fi
 
 echo ""
 
-gunicorn -w 4 -k uvicorn.workers.UvicornWorker api:app
+python api/main.py
