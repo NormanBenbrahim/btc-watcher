@@ -1,9 +1,0 @@
-venv
-.git
-README.md
-.gitignore
-__pycache__
-.DS_STORE
-.vscode
-.python-version
-test_requirements.py
