@@ -42,12 +42,10 @@ if [ ! -d "$HOME/google-cloud-sdk" ]; then
     echo "and install it first, then re-run this file"
     exit
 else 
-    gcloud auth login
+    export PROJECT_ID="watch-btc-dev"
+    gcloud config set project $PROJECT_ID
 fi 
 
-export PROJECT_ID="watch-btc-dev"
+echo ""
 
-echo ""
-echo ""
-echo "***You are ready to work in your local instance!***"
-echo "To start the app, type gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app"
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker app/main:app
