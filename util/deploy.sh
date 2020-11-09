@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# project specific environment variables
+export SERVICE_ACCT="fast-api"
 export PROJECT_ID="watch-btc-dev"
 
 # login to cloudrun instance
