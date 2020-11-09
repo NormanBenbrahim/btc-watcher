@@ -1,25 +1,22 @@
 from fastapi import APIRouter
-from google.cloud import datastore
-import requests
+#from google.cloud import datastore
+#import requests
 
 router = APIRouter()
 
-# start datastore client
-ds_client = datastore.Client()
-KEY_TYPE = 'Record'
-
-# datastore put/update & get functions
-def insert(**data):
-    entity = datastore.Entity(key=ds_client.key(KEY_TYPE))
-    entity.update(**data)
-    ds_client.put(entity)
-
-def query(limit):
-    return ds_client.query(kind=KEY_TYPE).fetch(limit=limit)
-
-# download route
-@router.get('/download', tags='download')
+@router.get('/download')
 async def download():
-    response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=cad')
-    response.raise_for_status()
+    """
+    Route to download the last 3 months of bitcoin data to google cloud 
+    """
+    #response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=cad')
+    #response.raise_for_status()
     return {200: "done"}
+
+
+@router.get('/download/{months}')
+async def download_last_months(months):
+    """
+    Route to download the last {X} months of bitcoin data to google cloud 
+    """
+    return {200: str(months)}
