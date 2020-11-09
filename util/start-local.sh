@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: add check for firestore client & database exist check
+
 # make sure credentials folder exists
 if [ ! -d "$HOME/.credentials" ]; then
     echo ""
@@ -43,15 +45,6 @@ if [ ! -d "venv" ]; then
     python3 -m venv venv
 fi
 
-# some housekeeping 
-if [ ! -z "${VIRTUAL_ENV}" ]; then
-    pip install -r requirements.txt
-else
-    echo ""
-    echo "Please type 'source venv/bin/activate' first, then re-run this file"
-    exit
-fi
-
 # check for gcloud sdk
 if [ ! -d "$HOME/google-cloud-sdk" ]; then 
     echo "" 
@@ -64,7 +57,7 @@ else
 fi 
 
 # check for credentials file
-if [ ! -d "$HOME/.credentials/$PROJECT_ID.json" ]; then 
+if [ ! -f "$HOME/.credentials/$PROJECT_ID.json" ]; then 
     # echo ""
     # echo "Authenticating GCP on the browser"
     # gcloud auth login
@@ -75,18 +68,27 @@ if [ ! -d "$HOME/.credentials/$PROJECT_ID.json" ]; then
 
     echo ""
     echo "Creating service account and setting GCP environment variable"
-    #gcloud iam service-accounts create "$SERVICE_ACCT" --display-name "Service account for api created with fastAPI"
-    #gcloud iam service-accounts keys create "$PROJECT_ID.json" --iam-account="$SERVICE_ACCT@$PROJECT_ID.iam.gserviceaccount.com"
-    #mv "$PROJECT_ID.json" "$HOME/.credentials/$PROJECT_ID.json"
-    gcloud config set project $PROJECT_ID
+    gcloud iam service-accounts create "$SERVICE_ACCT" --display-name "Service account for api created with fastAPI"
+    gcloud iam service-accounts keys create "$PROJECT_ID.json" --iam-account="$SERVICE_ACCT@$PROJECT_ID.iam.gserviceaccount.com"
+    mv "$PROJECT_ID.json" "$HOME/.credentials/$PROJECT_ID.json"
     export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.credentials/$PROJECT_ID.json"
 else
     export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.credentials/$PROJECT_ID.json"
 fi
 
+# run app inside venv
+stat venv || python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+echo "source venv/bin/activate"
+
+echo ""
+echo "Setting up firestore"
+python util/setup-firestore.py
+
 echo ""
 echo "Launching API"
-python api/main.py
+python app/main.py
 
 # remove the data folder when app is offline
 rm -rf "./data"

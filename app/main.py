@@ -6,6 +6,9 @@ import requests
 import json
 from routers import models, download, health_check
 
+# base api:
+# https://github.com/hjkelly/fastapi-budget/tree/master/app
+
 # formatter for logging
 formatter = logging.Formatter('%(asctime)s: %(levelname)s: %(message)s')
 

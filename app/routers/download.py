@@ -1,62 +1,97 @@
 from fastapi import APIRouter
 from datetime import datetime
+from typing import List
 from pytz import timezone
 from dateutil.relativedelta import relativedelta
 import requests
+from google.cloud import firestore
+from viewmodels.download import PriceInput, PriceOutput, Item
 
+# initialize the router
 router = APIRouter()
 
-@router.get('/download')
-async def download_last_3_months():
+# initialize the database (cloud datastore)
+# TODO: create the firestore database below
+db = firestore.Client()
+collection = db.collection('features')
+
+
+@router.get("downloaded/?")
+async def list() -> List[PriceOutput]:
     """
-    Route to download the last 3 months of bitcoin data to google cloud
-    with hourly tickers
-
-    RETURNS
-        JSON object containing collection of [market cap, price]
+    docs
     """
-    # get timestamps
-    time_now = datetime.now(timezone('EST'))
-    time_three_months_ago = time_now + relativedelta(months=-3)
+    results = List[PriceOutput] = []
 
-    # build request url
-    base_url = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=cad&'
-    endpoint_url = f"from={time_three_months_ago.timestamp()}&to={time_now.timestamp()}"
-    request_url = base_url + endpoint_url 
+    for doc in collection.stream():
+        results.append(to_output_model(doc))
     
-    # handle response
-    response = requests.get(request_url)
-    response.raise_for_status()
-    
-    # spit it back
-    return response.json()
+    return results 
 
 
-@router.get('/download/{n_months}')
-async def download_last_X_months(n_months: int):
+@router.post("/downloaded/?")
+async def create(price: PriceInput) -> PriceOutput:
     """
-    Route to download the last {n_months} months of bitcoin data to google cloud
-    with hourly tickers
-
-    PARAMS 
-        months: number of months to go backwards (keep in mind cryptocurrencies were created
-                in 2009)
-
-    RETURNS
-        JSON object containing collection of [market cap, price]
+    docs
     """
-    # get timestamps
-    time_now = datetime.now(timezone('EST'))
-    time_three_months_ago = time_now + relativedelta(months=-n_months)
+    doc_ref = collection.document()
+    doc_ref.set(get_db_dict(price))
 
-    # build request url
-    base_url = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=cad&'
-    endpoint_url = f"from={time_three_months_ago.timestamp()}&to={time_now.timestamp()}"
-    request_url = base_url + endpoint_url 
-    
-    # handle response
-    response = requests.get(request_url)
-    response.raise_for_status()
-    
-    # spit it back
-    return response.json()
+    return to_output_model(doc_ref.get())
+
+
+@router.get("downloaded/?")
+async def list() -> List[PriceOutput]:
+    """
+    docs
+    """
+    results: List[PriceOutput] = []
+    for doc in collection.stream():
+        results.append(to_output_model(doc))
+    return results
+
+
+@router.post("downloaded/?")
+async def create(price: PriceInput) -> PriceOutput:
+    """
+    docs
+    """
+    doc_ref = collection.document()
+    doc_ref.set(get_db_dict(price))
+    return to_output_model(doc_ref.get())
+
+
+@router.get("downloaded/{download_id}/?")
+async def retrieve(download_id: str) -> PriceOutput:
+    """
+    docs
+    """
+    doc_ref = collection.document(download_id)
+    return to_output_model(doc_ref.get())
+
+
+@router.put("/downloaded/{download_id}/?")
+async def replace(download_id: str, price: PriceInput):
+    """
+    docs
+    """
+    doc_ref = collection.document(download_id)
+    doc_ref.set(get_db_dict(price))
+    return to_output_model(doc_ref.get())
+
+
+def get_db_dict(price: PriceInput) -> dict:
+    """
+    docs
+    """
+    data = price.dict()
+    data["start"] = data["start"].isoformat()
+    data["end"] = data["end"].isoformat()
+    return data
+
+
+def to_output_model(document) -> PriceOutput:
+    """
+    docs
+    """
+    return PriceOutput(id=document.id, **document.to_dict())
