@@ -7,7 +7,7 @@ if [ ! -d "$HOME/.credentials" ]; then
     mkdir "$HOME/.credentials"
 fi 
 
-# make sure data folder exists when app is live
+# make sure data folder exists & is empty when app is live
 if [ ! -d "./data" ]; then
     echo ""
     echo "data folder not found, creating..."

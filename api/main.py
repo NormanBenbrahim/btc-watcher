@@ -14,7 +14,7 @@ app = FastAPI()
 
 # root
 @app.get("/")
-async def home():
+async def root():
     return {200: "Successfully connected to API, visit /docs to view all routes"}
 
 # include all other routes

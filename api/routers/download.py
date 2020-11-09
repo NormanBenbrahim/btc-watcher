@@ -1,8 +1,14 @@
 from fastapi import APIRouter
-#from google.cloud import datastore
-#import requests
+from datetime import datetime
+from pytz import timezone
+from dateutil.relativedelta import relativedelta
+import requests
 
 router = APIRouter()
+
+# get time objects
+time_now = datetime.now(timezone('EST'))
+time_three_months_ago = time_now + relativedelta(months=-3)
 
 @router.get('/download')
 async def download():
@@ -19,4 +25,5 @@ async def download_last_months(months):
     """
     Route to download the last {X} months of bitcoin data to google cloud 
     """
+
     return {200: str(months)}
