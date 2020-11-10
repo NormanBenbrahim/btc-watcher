@@ -11,8 +11,6 @@ fi
 
 # make sure data folder exists & is empty when app is live
 if [ ! -d "./data" ]; then
-    echo ""
-    echo "data folder not found, creating..."
     mkdir "./data"
 else 
     rm -rf "./data"
@@ -79,7 +77,7 @@ fi
 # run app inside venv
 stat venv || python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip install --use-feature=2020-resolver -r requirements.txt 
 echo "source venv/bin/activate"
 
 echo ""

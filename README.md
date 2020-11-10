@@ -4,7 +4,7 @@ RestAPI to watch and collects useful data about BTC wrapped in a rest API built 
 
 # Requirements
 
-Python 3.8, see `requirements.txt` and `Dockerfile`
+Docker and Python 3.8, see `requirements.txt` and `Dockerfile`
 
 # Setup (one-time)
 

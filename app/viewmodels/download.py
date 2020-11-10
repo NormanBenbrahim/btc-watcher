@@ -1,19 +1,20 @@
 from datetime import date
-from typing import List, Dict
+from typing import Optional, List
 from pydantic import BaseModel
-
 
 class Item(BaseModel):
     name: str
-    coin: str
-
+    price: float
 
 class PriceInput(BaseModel):
     start: date
     end: date
-    price: List[Item]
-    market_cap: List[Item]
+    incomes: List[Item]
+    expenses: List[Item]
 
+
+class PriceOutput(PriceInput):
+    id: str
 
 class PriceOutput(PriceInput):
     id: str

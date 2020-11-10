@@ -4,94 +4,81 @@ from typing import List
 from pytz import timezone
 from dateutil.relativedelta import relativedelta
 import requests
-from google.cloud import firestore
-from viewmodels.download import PriceInput, PriceOutput, Item
+from firebase_admin import credentials, firestore, initialize_app
+from viewmodels.download import Item
+from starlette.requests import Request
 
 # initialize the router
 router = APIRouter()
 
-# initialize the database (cloud datastore)
-# TODO: create the firestore database below
-db = firestore.Client()
-collection = db.collection('features')
+# initialize the database object
+#initialize_app(name="btc-app")
+#db = firestore.client()
+#collection = db.collection('features')
 
 
-@router.get("downloaded/?")
-async def list() -> List[PriceOutput]:
+@router.get("/items/{item_id}")
+def read_root(item_id: str, request: Request):
+    client_host = request.client.host
+    return {"client_host": client_host, "item_id": item_id}
+
+@router.post('/add')
+async def create(item: Item):
     """
-    docs
+        create() : Add document to Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
-    results = List[PriceOutput] = []
+    try:
+        id = request.json['id']
+        todo_ref.document(id).set(request.json)
+        #return jsonify({"success": True}), 200
+        return item 
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
-    for doc in collection.stream():
-        results.append(to_output_model(doc))
-    
-    return results 
-
-
-@router.post("/downloaded/?")
-async def create(price: PriceInput) -> PriceOutput:
+@router.get('/list')
+async def read():
     """
-    docs
+        read() : Fetches documents from Firestore collection as JSON.
+        todo : Return document that matches query ID.
+        all_todos : Return all documents.
     """
-    doc_ref = collection.document()
-    doc_ref.set(get_db_dict(price))
+    try:
+        # Check if ID was passed to URL query
+        todo_id = request.args.get('id')
+        if todo_id:
+            todo = todo_ref.document(todo_id).get()
+            return jsonify(todo.to_dict()), 200
+        else:
+            all_todos = [doc.to_dict() for doc in todo_ref.stream()]
+            return jsonify(all_todos), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
-    return to_output_model(doc_ref.get())
-
-
-@router.get("downloaded/?")
-async def list() -> List[PriceOutput]:
+@router.put('/update')
+async def update():
     """
-    docs
+        update() : Update document in Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post today'}
     """
-    results: List[PriceOutput] = []
-    for doc in collection.stream():
-        results.append(to_output_model(doc))
-    return results
+    try:
+        id = request.json['id']
+        todo_ref.document(id).update(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
-
-@router.post("downloaded/?")
-async def create(price: PriceInput) -> PriceOutput:
+@router.delete('/delete')
+async def delete():
     """
-    docs
+        delete() : Delete a document from Firestore collection.
     """
-    doc_ref = collection.document()
-    doc_ref.set(get_db_dict(price))
-    return to_output_model(doc_ref.get())
-
-
-@router.get("downloaded/{download_id}/?")
-async def retrieve(download_id: str) -> PriceOutput:
-    """
-    docs
-    """
-    doc_ref = collection.document(download_id)
-    return to_output_model(doc_ref.get())
-
-
-@router.put("/downloaded/{download_id}/?")
-async def replace(download_id: str, price: PriceInput):
-    """
-    docs
-    """
-    doc_ref = collection.document(download_id)
-    doc_ref.set(get_db_dict(price))
-    return to_output_model(doc_ref.get())
-
-
-def get_db_dict(price: PriceInput) -> dict:
-    """
-    docs
-    """
-    data = price.dict()
-    data["start"] = data["start"].isoformat()
-    data["end"] = data["end"].isoformat()
-    return data
-
-
-def to_output_model(document) -> PriceOutput:
-    """
-    docs
-    """
-    return PriceOutput(id=document.id, **document.to_dict())
+    try:
+        # Check for ID in URL query
+        todo_id = request.args.get('id')
+        todo_ref.document(todo_id).delete()
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"

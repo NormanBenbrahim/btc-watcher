@@ -5,6 +5,7 @@ import logging
 import requests
 import json
 from routers import models, download, health_check
+from firebase_admin import initialize_app
 
 # base api:
 # https://github.com/hjkelly/fastapi-budget/tree/master/app
@@ -14,6 +15,9 @@ formatter = logging.Formatter('%(asctime)s: %(levelname)s: %(message)s')
 
 # start api
 app = FastAPI()
+
+# initialize firebase
+#firebase_init = initialize_app()
 
 # root
 @app.get("/")
