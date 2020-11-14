@@ -77,7 +77,7 @@ fi
 # run app inside venv
 stat venv || python3 -m venv venv
 source venv/bin/activate
-pip install --use-feature=2020-resolver -r requirements.txt 
+#pip install --use-feature=2020-resolver -r requirements.txt 
 echo "source venv/bin/activate"
 
 echo ""

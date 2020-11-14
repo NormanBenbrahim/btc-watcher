@@ -4,7 +4,7 @@ import uvicorn
 import logging
 import requests
 import json
-from routers import models, download, health_check
+from routers import predict, download, health_check
 from firebase_admin import initialize_app
 
 # base api:
@@ -24,8 +24,8 @@ app = FastAPI()
 async def root():
     return {200: "Successfully connected to API, visit /docs to view all routes"}
 
-# include all other routes
-app.include_router(models.router)
+# include other routes
+app.include_router(predict.router)
 app.include_router(download.router)
 app.include_router(health_check.router)
 
