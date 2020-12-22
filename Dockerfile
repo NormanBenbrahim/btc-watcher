@@ -1,5 +1,5 @@
 # https://hub.docker.com/r/tiangolo/uvicorn-gunicorn/
-FROM tiangolo/uvicorn-gunicorn:python3.7-slim
+FROM tiangolo/uvicorn-gunicorn:python3.7
 
 # Allow statements and log   messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
