@@ -9,27 +9,39 @@ Docker and Python 3.8, see `requirements.txt` and `Dockerfile`
 # Setup (one-time)
 
 ### Step 1
-```
-git clone https://github.com/NormanBenbrahim/mind-med-watcher.git
-cd mind-med-watcher
-./util/setup-local.sh OR ./util/setup-gcp.sh
-```
 
+Create an account with TAAPI: https://taapi.io/
+
+Then add this environment variable to your configuration: 
+```
+export TAAPI_KEY="key here"
+```
 
 ### Step 2
+
+Create a new email with gmail, then follow the guide here to get started authenticating with Gmail API: https://taapi.io/documentation/
+
+Then add these environment variables to your configuration when you enable the API:
+```
+export GMAIL_CLIENT_ID="client id here"
+export GMAIL_CLIENT_SECRET="client secret here"
+```
+
+
+### Step 3
 
 Run the `start` scripts for your environment and follow instructions
 
 **Local:** On a Mac (make sure homebrew is installed):
 
 ```
-./util/setup-local.sh
+./tools/setup-local.sh
 ```
 
 **Dev/Prod:** On Google App Engine it's the same concept
 
 ```
-./util/setup-dev.sh
+./tools/setup-dev.sh
 ```
 
 # Usage 
@@ -39,11 +51,11 @@ Run the `start` scripts for your environment and follow instructions
 **Local:** On a Mac (make sure homebrew is installed):
 
 ```
-./util/start-local.sh
+./tools/start-local.sh
 ```
 
 **Dev/Prod:** On Google App Engine it's the same concept
 
 ```
-./util/start-dev.sh
+./tools/start-dev.sh
 ```

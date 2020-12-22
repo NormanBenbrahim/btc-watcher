@@ -1,15 +1,6 @@
 #!/bin/bash
 
-# TODO: add check for firestore client & database exist check
-
-# make sure credentials folder exists
-if [ ! -d "$HOME/.credentials" ]; then
-    echo ""
-    echo "Credentials folder not found, creating..."
-    mkdir "$HOME/.credentials"
-fi 
-
-# make sure data folder exists & is empty when app is live
+# make sure data folder when app is online
 if [ ! -d "./data" ]; then
     mkdir "./data"
 else 

@@ -1,11 +1,9 @@
 from fastapi import FastAPI
-from enum import Enum
 import uvicorn
 import logging
 import requests
 import json
 from routers import alerter, download, health_check
-from firebase_admin import initialize_app
 
 # base api:
 # https://github.com/hjkelly/fastapi-budget/tree/master/app
