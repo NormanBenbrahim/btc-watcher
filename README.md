@@ -12,50 +12,34 @@ Docker and Python 3.8, see `requirements.txt` and `Dockerfile`
 
 Create an account with TAAPI: https://taapi.io/
 
-Then add this environment variable to your configuration: 
+Then add this environment variable to your configuration (bash_profile/bashrc): 
 ```
 export TAAPI_KEY="key here"
 ```
 
 ### Step 2
 
-Create a new email with gmail, then follow the guide here to get started authenticating with Gmail API: https://taapi.io/documentation/
+Create an account with Binance: https://www.binance.com/en and get your API key & secret.
 
-Then add these environment variables to your configuration when you enable the API:
+Then add these environment variables to your configuration (bash_profile/bashrc):
 ```
-export GMAIL_CLIENT_ID="client id here"
-export GMAIL_CLIENT_SECRET="client secret here"
+export BINANCE_API_KEY="add api key here
+export BINANCE_SECRET_KEY="add api secret here"
 ```
 
 
 ### Step 3
 
-Run the `start` scripts for your environment and follow instructions
-
-**Local:** On a Mac (make sure homebrew is installed):
+Test the app locally and make sure endpoints work on your computer (create a python 3.7.3 virtual environment first and source it)
 
 ```
-./tools/setup-local.sh
+pip install -r requirements.txt
+python app/main.py
 ```
 
-**Dev/Prod:** On Google App Engine it's the same concept
 
-```
-./tools/setup-dev.sh
-```
+# Launching the app on GCP
 
-# Usage 
+Launch to Cloud Run and schedule it to run every 10 mins with Cloud Scheduler
 
-### Launching the app
-
-**Local:** On a Mac (make sure homebrew is installed):
-
-```
-./tools/start-local.sh
-```
-
-**Dev/Prod:** On Google App Engine it's the same concept
-
-```
-./tools/start-dev.sh
-```
+Add instructions here when more clear
