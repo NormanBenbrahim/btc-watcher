@@ -40,6 +40,8 @@ python app/main.py
 
 # Launching the app on GCP
 
-Launch to Cloud Run and schedule it to run every 10 mins with Cloud Scheduler
+Launch to Cloud Run and schedule it to run every 10 mins (or however often you want) with Cloud Scheduler
 
-Add instructions here when more clear
+First add your API keys using Secret Manager (https://cloud.google.com/secret-manager/docs/creating-and-accessing-secrets#create_a_secret). Make sure to enable the IAM permission for the secret manager as well.
+
+Then create a Cloud Run service, add the dockerfile in the directory, and add a trigger to CloudBuild to update everytime your `main` branch is updated

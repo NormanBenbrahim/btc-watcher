@@ -3,7 +3,7 @@ import uvicorn
 import logging
 import requests
 import json
-from routers import alerter, download, health_check
+from routers import alerter, health_check
 
 # base api:
 # https://github.com/hjkelly/fastapi-budget/tree/master/app
@@ -24,7 +24,6 @@ async def root():
 
 # include other routes
 app.include_router(alerter.router)
-app.include_router(download.router)
 app.include_router(health_check.router)
 
 if __name__ == '__main__':
