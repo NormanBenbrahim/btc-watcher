@@ -1,23 +1,35 @@
-# https://hub.docker.com/r/tiangolo/uvicorn-gunicorn/
-FROM tiangolo/uvicorn-gunicorn:python3.7
+# Multi-stage build to reduce image size
+# See https://pythonspeed.com/articles/multi-stage-docker-python/
+FROM python:3.8.5-slim as py
 
-# Allow statements and log   messages to immediately appear in the Knative logs
-ENV PYTHONUNBUFFERED True
+# Base
+FROM py as base
+ENV PYTHONUNBUFFERED 1
 
-# Copy local code to the container image.
-ENV APP_HOME /container_image
-WORKDIR $APP_HOME
-COPY . ./
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential python-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# update and install c compiler
-RUN apt-get update -y
-RUN apt-get -y install gcc
+WORKDIR /app
+COPY api ./api/
+COPY setup.py ./
 
-# install python dependencies
-RUN pip install --no-cache-dir --use-feature=2020-resolver -r requirements.txt 
+# Dev
+FROM base as develop
+COPY --from=base / /
 
-# Run the web service on container startup. Here we use the gunicorn
-# webserver, with one worker process and 8 threads.
-# For environments with multiple CPU cores, increase the number of workers
-# to be equal to the cores available.
-CMD exec gunicorn -k uvicorn.workers.UvicornWorker --bind :$PORT --workers 4 --threads 8 --timeout 0 app:app
+RUN pip3 install --no-cache-dir -e .
+
+EXPOSE 8000
+
+ENTRYPOINT ["uvicorn"]
+
+# Production
+FROM base as production
+COPY --from=base / /
+COPY gunicorn-config.py ./
+
+RUN pip3 install --no-cache-dir . gunicorn
+
+CMD exec gunicorn api.main:app -c gunicorn-config.py
