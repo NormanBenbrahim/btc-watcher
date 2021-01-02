@@ -3,20 +3,15 @@ from datetime import datetime
 from pytz import timezone 
 import requests
 import os 
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
+from google.cloud import secretmanager
 
 # taapi key (for indicators)
-taapi_key = os.environ['TAAPI_KEY']
+#taapi_key = os.environ['TAAPI_KEY']
 taapi_base_url = "https://api.taapi.io"
 
-# binance key (for price action)
-binance_key = os.environ["BINANCE_API_KEY"]
-binance_private_key = os.environ["BINANCE_SECRET_KEY"]
-
 # for sending a message through telegram
-telegram_token = os.environ["TELEGRAM_TOKEN"]
-telegram_chat = os.environ["TELEGRAM_CHAT"]
+#telegram_token = os.environ["TELEGRAM_TOKEN"]
+#telegram_chat = os.environ["TELEGRAM_CHAT"]
 telegram_base_url = f"https://api.telegram.org/bot{telegram_token}/sendMessage?chat_id={telegram_chat}&text="
 
 # initiate the router
@@ -58,6 +53,9 @@ def indicator_call(api_url, params, indicators):
 # main route
 @router.get('/btc_indicators')
 async def btc_indicators():
+    """
+    # Extract indicators, test them against specified trading values, and send an alert on telegram when conditions are met
+    """
     # setup params for api call to taapi
     parameters = {
         'secret': taapi_key,
@@ -74,24 +72,22 @@ async def btc_indicators():
     rsi = values['rsi']
     mfi = values['mfi']
     stochK = values['stochrsitv']['valueK']
-    stochD = values['stochrsitv']['valueD']
 
-    # check the conditions set by the trading plan
     # first the singular conditions
     alert = False
     if rsi < 35:
         send_telegram(f"[BTC ALERT] RSI just dipped below 35 in the 1h timeframe, data below")
-        send_telegram(f"[BTC ALERT] RSI={rsi}, 52-week-high={1}, PriceNow={1}")
+        send_telegram(f"[BTC ALERT] RSI={rsi}")
         alert = True
 
     if mfi < 21:
         send_telegram(f"[BTC ALERT] MFI just dipped below 21 in the 1h timeframe, data below")
-        send_telegram(f"[BTC ALERT] MFI={mfi}, 52-week-high={1}, PriceNow={1}")
+        send_telegram(f"[BTC ALERT] MFI={mfi}")
         alert = True
 
-    if stochD < 21 or stochK < 21:
+    if stochK < 21:
         send_telegram(f"[BTC ALERT] StochRSI just dipped below 21 in the 1h timeframe, data below")
-        send_telegram(f"[BTC ALERT] StochRSI(K)={stochK}, StochRSI(D)={stochD}, 52-week-high={1}, PriceNow={1}")
+        send_telegram(f"[BTC ALERT] StochRSI(K)={stochK}")
         alert = True
 
     # now the mixed conditions
@@ -100,22 +96,22 @@ async def btc_indicators():
         send_telegram(f"")
         alert = True
 
-    if rsi < 35 and (stochD < 21 or stochK < 21):
+    if rsi < 35 and stochK < 21:
         send_telegram(f"[!BTC ALERT] BOTH RSI and StochRSI conditions met, data below")
-        send_telegram(f"[!BTC ALERT] RSI={rsi}, StochRSI(K)={stochK}, StochRSI(D)={stochD}, 52-week-high={1}, PriceNow={1}")
+        send_telegram(f"[!BTC ALERT] RSI={rsi}, StochRSI(K)={stochK}")
         alert = True
 
-    if mfi < 21 and (stochD < 21 or stochK < 21):
+    if mfi < 21 and stochK < 21:
         send_telegram(f"[!BTC ALERT] BOTH MFI and StochRSI conditions met, data below")
-        send_telegram(f"[!BTC ALERT] MFI={mfi}, StochRSI(K)={stochK}, StochRSI(D)={stochD}, 52-week-high={1}, PriceNow={1}")
+        send_telegram(f"[!BTC ALERT] MFI={mfi}, StochRSI(K)={stochK}")
         alert = True
 
     # the big one, if all conditions are met
-    if mfi < 21 and rsi < 35 and (stochD < 21 or stochK < 21):
+    if mfi < 21 and rsi < 35 and stochK < 21:
         send_telegram(f"[!!BIG BTC ALERT!!] ALL INDICATORS FIT CONDITIONS, data below")
-        send_telegram(f"[!!BIG BTC ALERT!!] RSI={rsi}, MFI={mfi}, StochRSI(K)={stochK}, StochRSI(D)={stochD}, 52-week-high={1}, PriceNow={1}")
+        send_telegram(f"[!!BIG BTC ALERT!!] RSI={rsi}, MFI={mfi}, StochRSI(K)={stochK}")
         alert = True
 
-    output = {"alert?" : alert, "RSI": rsi, "MFI": mfi, "StochRSI(K)": stochK, "StochRSI(D)": stochD}
+    output = {"alert" : alert, "RSI": rsi, "MFI": mfi, "StochRSI(K)": stochK}
 
     return output
